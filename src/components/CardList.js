@@ -1,9 +1,10 @@
+import Card from './Card';
+
 const CardList = ({ pokeArray }) => {
   const pokemonAll = pokeArray.map((pokemon, index) => {
     return (
       <li id={index}>
-        {pokemon.name}
-        {pokemon.img}
+        <Card pokemon={pokemon} />
       </li>
     );
   });
