@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import CardList from './components/CardList';
+import Nav from './components/Nav';
 
 const App = () => {
   const [allData, setAllData] = useState({ data: null, index: 0 });
@@ -35,7 +36,6 @@ const App = () => {
 
   useEffect(() => {
     const fetchAllData = async () => {
-      console.log('fetching all');
       const url = 'https://pokeapi.co/api/v2/pokemon/?limit=151';
       const response = await fetch(url);
       const data = await response.json();
@@ -44,7 +44,6 @@ const App = () => {
       setBatch({ ...batch, next: true });
     };
     const fetchNextData = async () => {
-      console.log('fetching next');
       let batchData = [];
       let randomNums = [];
       for (let i = 0; i < batch.size; i++) {
@@ -70,9 +69,11 @@ const App = () => {
 
   return (
     <>
-      <div>Current Score: {score.current}</div>
-      <div>Best Score: {score.best}</div>
-      <div>Round: {score.round}</div>
+      <Nav
+        round={score.round}
+        bestScore={score.best}
+        currentScore={score.current}
+      />
       <CardList pokeArray={batch.data} clickHandler={clickHandler} />
     </>
   );
