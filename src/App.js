@@ -11,7 +11,7 @@ const App = () => {
   const clickHandler = (event) => {
     const pokemon = event.currentTarget.getAttribute('name');
     if (picked.includes(pokemon)) {
-      setBatch({ ...batch, next: true });
+      setBatch({ ...batch, next: true, size: 4 });
       setScore({
         current: 0,
         best: score.best >= score.current ? score.best : score.current,
@@ -23,7 +23,7 @@ const App = () => {
         best: score.best > score.current ? score.best : score.current + 1,
       });
       if (picked.length + 1 === batch.size) {
-        setBatch({ ...batch, next: true });
+        setBatch({ ...batch, next: true, size: batch.size + 1 });
         setPicked([]);
       } else {
         setPicked([...picked, pokemon]);
