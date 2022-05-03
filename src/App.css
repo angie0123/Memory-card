@@ -5,6 +5,11 @@
   font-family: 'Source Sans Pro', sans-serif;
   --dark-color: rgb(7, 9, 15);
   --metalic-color: rgb(163, 124, 64);
+  --light-grey: rgb(231, 230, 230);
+}
+
+body {
+  background-color: var(--light-grey);
 }
 
 .nav {
@@ -29,4 +34,38 @@
   padding: 20px;
   column-gap: 30px;
   color: white;
+}
+
+.main {
+  margin-top: 40px;
+}
+
+ul li {
+  list-style: none;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.card {
+  border-radius: 12px;
+  border: 1px solid var(--dark-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.card .name {
+  font-size: 1.3rem;
+  font-weight: bold;
 }

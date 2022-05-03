@@ -25,7 +25,7 @@ const CardList = ({ pokeArray, clickHandler }) => {
         })
       : null;
 
-  return <>{<ul>{pokemonAll}</ul>}</>;
+  return <div className="main">{<ul>{pokemonAll}</ul>}</div>;
 };
 
 export default CardList;
