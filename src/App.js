@@ -44,8 +44,14 @@ const App = () => {
     const fetchNextData = async () => {
       console.log('fetching next');
       let batchData = [];
+      let randomNums = [];
       for (let i = 0; i < batch.size; i++) {
-        const currentData = allData.data[i];
+        let randomInt;
+        do {
+          randomInt = Math.floor(Math.random() * allData.data.length);
+        } while (randomNums.includes(randomInt));
+        randomNums = [...randomNums, randomInt];
+        const currentData = allData.data[randomInt];
         const response = await fetch(currentData.url);
         const data = await response.json();
         const pokeData = await data;
