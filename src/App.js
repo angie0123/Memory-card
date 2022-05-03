@@ -8,11 +8,12 @@ const App = () => {
   const [batch, setBatch] = useState({ data: null, next: false, size: 2 });
   const [picked, setPicked] = useState([]);
   const [score, setScore] = useState({ current: 0, best: 0, round: 1 });
+  const [loading, setLoading] = useState(true);
 
   const clickHandler = (event) => {
     const pokemon = event.currentTarget.getAttribute('name');
     if (picked.includes(pokemon)) {
-      setBatch({ ...batch, next: true, size: 4 });
+      setBatch({ ...batch, next: true, size: 2 });
       setScore({
         current: 0,
         best: score.best >= score.current ? score.best : score.current,
@@ -44,6 +45,7 @@ const App = () => {
       setBatch({ ...batch, next: true });
     };
     const fetchNextData = async () => {
+      setLoading(true);
       let batchData = [];
       let randomNums = [];
       for (let i = 0; i < batch.size; i++) {
@@ -62,6 +64,9 @@ const App = () => {
         return { name: data.name, img: data.sprites.front_default };
       });
       setBatch({ ...batch, next: false, data: parsedBatchData });
+      setTimeout(() => {
+        setLoading(false);
+      }, 200);
     };
     if (allData.data === null) fetchAllData();
     if (batch.next === true) fetchNextData();
@@ -74,6 +79,7 @@ const App = () => {
         bestScore={score.best}
         currentScore={score.current}
       />
+      {loading && <div className="loading">Loading ...</div>}
       <CardList pokeArray={batch.data} clickHandler={clickHandler} />
     </>
   );
