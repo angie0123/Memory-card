@@ -5,6 +5,31 @@ import CardList from './components/CardList';
 const App = () => {
   const [allData, setAllData] = useState({ data: null, index: 0 });
   const [batch, setBatch] = useState({ data: null, next: false, size: 5 });
+  const [picked, setPicked] = useState([]);
+  const [score, setScore] = useState({ current: 0, best: 0 });
+
+  const clickHandler = (event) => {
+    const pokemon = event.currentTarget.getAttribute('name');
+    if (picked.includes(pokemon)) {
+      setBatch({ ...batch, next: true });
+      setScore({
+        current: 0,
+        best: score.best >= score.current ? score.best : score.current,
+      });
+      setPicked([]);
+    } else {
+      setScore({
+        current: score.current + 1,
+        best: score.best > score.current ? score.best : score.current + 1,
+      });
+      if (picked.length + 1 === batch.size) {
+        setBatch({ ...batch, next: true });
+        setPicked([]);
+      } else {
+        setPicked([...picked, pokemon]);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -50,8 +75,9 @@ const App = () => {
   return (
     // populate DOM elements with x cards
     <>
-      App
-      <CardList pokeArray={batch.data} />
+      <div>Current Score: {score.current}</div>
+      <div>Best Score: {score.best}</div>
+      <CardList pokeArray={batch.data} clickHandler={clickHandler} />
     </>
   );
 };
