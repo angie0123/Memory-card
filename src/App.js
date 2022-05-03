@@ -4,9 +4,9 @@ import CardList from './components/CardList';
 
 const App = () => {
   const [allData, setAllData] = useState({ data: null, index: 0 });
-  const [batch, setBatch] = useState({ data: null, next: false, size: 5 });
+  const [batch, setBatch] = useState({ data: null, next: false, size: 2 });
   const [picked, setPicked] = useState([]);
-  const [score, setScore] = useState({ current: 0, best: 0 });
+  const [score, setScore] = useState({ current: 0, best: 0, round: 1 });
 
   const clickHandler = (event) => {
     const pokemon = event.currentTarget.getAttribute('name');
@@ -15,12 +15,14 @@ const App = () => {
       setScore({
         current: 0,
         best: score.best >= score.current ? score.best : score.current,
+        round: 0,
       });
       setPicked([]);
     } else {
       setScore({
         current: score.current + 1,
         best: score.best > score.current ? score.best : score.current + 1,
+        round: picked.length + 1 === batch.size ? score.round + 1 : score.round,
       });
       if (picked.length + 1 === batch.size) {
         setBatch({ ...batch, next: true, size: batch.size + 1 });
@@ -66,23 +68,11 @@ const App = () => {
     if (batch.next === true) fetchNextData();
   }, [allData, batch]);
 
-  // onMount:
-  // get all available data and store in state
-  // fetch [ batch ](size) pokemon
-  // add eventListener to each card
-  // compare card info with current batch =>
-  // isAlreadyPicked? LOSE & reset round : remove card & continue
-  // batch empty ? setBatch
-  // always updateScores
-
-  // onUpdate: [ batch ]( size + 1 )
-  // fetch x pokemon
-
   return (
-    // populate DOM elements with x cards
     <>
       <div>Current Score: {score.current}</div>
       <div>Best Score: {score.best}</div>
+      <div>Round: {score.round}</div>
       <CardList pokeArray={batch.data} clickHandler={clickHandler} />
     </>
   );
